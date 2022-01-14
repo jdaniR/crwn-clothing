@@ -6,7 +6,7 @@ import CollectionOverview from "../../components/collection-overview/collection-
 
 import CollectionPage from "../collection/collection.component";
 
-class ShopPage extends React.component {
+class ShopPage extends React.Component {
   render() {
     return (
       <div className="shop-page">
@@ -14,7 +14,7 @@ class ShopPage extends React.component {
           <Route exact path="/*" element={<CollectionOverview />} />
           <Route exact path="/:collectionId" element={<CollectionPage />} />
         </Routes>
-      </div>                             
+      </div>
     );
   }
 }
