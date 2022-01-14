@@ -6,7 +6,17 @@ import CollectionOverview from "../../components/collection-overview/collection-
 
 import CollectionPage from "../collection/collection.component";
 
+import { firestore } from "../../firebase/firebase.utils";
+
 class ShopPage extends React.Component {
+  unsusbribeFromSnapshot = null;
+  componentDidMount() {
+    const collectionRef = firestore.collection("collections");
+    collectionRef.onSnapshot(async (snapshot) => {
+      console.log(snapshot);
+    });
+  }
+
   render() {
     return (
       <div className="shop-page">
