@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
@@ -14,41 +14,33 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 
-class App extends React.Component {
-  componentDidMount() {
-    const { checkUserSession } = this.props;
-    checkUserSession(); 
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
-    return (
-      <div>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/shop/*" element={<ShopPage />} />
-            <Route exact path="/checkout" element={<CheckoutPage />} />
-            <Route
-              path="/signIn"
-              element={
-                this.props.currentUser ? (
-                  <Navigate replace to="/" />
-                ) : (
-                  <SignInAndSignUpPage />
-                )
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  }
-}
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
+    checkUserSession();
+  }, [checkUserSession]);
+  return (
+    <div>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route path="/shop/*" element={<ShopPage />} />
+          <Route exact path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/signIn"
+            element={
+              currentUser ? (
+                <Navigate replace to="/" />
+              ) : (
+                <SignInAndSignUpPage />
+              )
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
