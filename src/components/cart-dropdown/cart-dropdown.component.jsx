@@ -10,6 +10,7 @@ import { toggleCartHidden } from "../../redux/cart/cart.actions";
 import "./cart-dropdown.styles.scss";
 
 const CartDropdown = () => {
+
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
@@ -18,7 +19,7 @@ const CartDropdown = () => {
       <div className="cart-items">
         {cartItems.length ? (
           cartItems.map((cartItem) => (
-            <CartItem key={cartItem.id} item={cartItem} />
+            <CartItem key={cartItem.id} item={cartItem} /> 
           ))
         ) : (
           <span className="empty-message">Your Cart is Empty!</span>
