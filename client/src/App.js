@@ -6,7 +6,7 @@ import { GlobalStyle } from './global.styles';
 import Header from './components/header/header.component';
 
 import Spinner from './components/spinner/spinner.component';
-
+import SuspenseComponent from './components/suspense/suspense.component';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
 
@@ -28,32 +28,9 @@ const App = () => {
 			<BrowserRouter>
 				<Header />
 				<Routes>
-					<Route
-						exact
-						path="/"
-						element={
-							<Suspense fallback={<Spinner />}>
-								<HomePage />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/shop/*"
-						element={
-							<Suspense fallback={<Spinner />}>
-								<ShopPage />
-							</Suspense>
-						}
-					/>
-					<Route
-						exact
-						path="/checkout"
-						element={
-							<Suspense fallback={<Spinner />}>
-								<CheckoutPage />
-							</Suspense>
-						}
-					/>
+					<Route exact path="/" element={SuspenseComponent(HomePage)} />
+					<Route path="/shop/*" element={SuspenseComponent(ShopPage)} />
+					<Route exact path="/checkout" element={SuspenseComponent(CheckoutPage)} />
 					<Route
 						path="/signIn"
 						element={
