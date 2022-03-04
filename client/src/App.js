@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { GlobalStyle } from './global.styles';
-import HomePage from './pages/homepage/homepage.component';
-import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import CheckoutPage from './pages/checkout/checkout.component';
+
+import Spinner from './components/spinner/spinner.component';
+
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
+
+const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
+const ShopPage = lazy(() => import('./pages/shop/shop.component'));
+const SignInAndSignUpPage = lazy(() => import('./pages/sign-in-and-sign-up/sign-in-and-sign-up.component'));
+const CheckoutPage = lazy(() => import('./pages/checkout/checkout.component'));
 
 const App = () => {
 	const currentUser = useSelector(selectCurrentUser);
@@ -24,12 +28,45 @@ const App = () => {
 			<BrowserRouter>
 				<Header />
 				<Routes>
-					<Route exact path="/" element={<HomePage />} />
-					<Route path="/shop/*" element={<ShopPage />} />
-					<Route exact path="/checkout" element={<CheckoutPage />} />
+					<Route
+						exact
+						path="/"
+						element={
+							<Suspense fallback={<Spinner />}>
+								<HomePage />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/shop/*"
+						element={
+							<Suspense fallback={<Spinner />}>
+								<ShopPage />
+							</Suspense>
+						}
+					/>
+					<Route
+						exact
+						path="/checkout"
+						element={
+							<Suspense fallback={<Spinner />}>
+								<CheckoutPage />
+							</Suspense>
+						}
+					/>
 					<Route
 						path="/signIn"
-						element={currentUser ? <Navigate replace to="/" /> : <SignInAndSignUpPage />}
+						element={
+							currentUser ? (
+								<Suspense fallback={<Spinner />}>
+									<Navigate replace to="/" />{' '}
+								</Suspense>
+							) : (
+								<Suspense fallback={<Spinner />}>
+									<SignInAndSignUpPage />
+								</Suspense>
+							)
+						}
 					/>
 				</Routes>
 			</BrowserRouter>
