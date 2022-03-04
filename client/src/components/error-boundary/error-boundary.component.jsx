@@ -3,28 +3,30 @@ import React from 'react';
 import { ErrorImageOverlay, ErrorImageContainer, ErrorImageText } from './error-boundary.styles';
 
 class ErrorBoundary extends React.Component {
-	constructor() {
-		super();
-
+	constructor(props) {
+		super(props);
 		this.state = {
-			hasErrored: false,
+			hasError: false,
 		};
 	}
+
 	static getDerivedStateFromError(error) {
-		// process the error
-		return { hasErrored: true };
+		// Update state so the next render will show the fallback UI.
+		return { hasError: true };
 	}
 
-	componentDidCatch(error, info) {
+	componentDidCatch(error, errorInfo) {
+		// You can also log the error to an error reporting service
 		console.log(error);
 	}
 
 	render() {
-		if (this.state.hasErrored) {
+		if (this.state.hasError) {
+			// You can render any custom fallback UI
 			return (
 				<ErrorImageOverlay>
-					<ErrorImageContainer imageUrl="https://i.imgur.com/O0DCcQy.png" />
-					<ErrorImageText>Sorry this page is Broken!!!</ErrorImageText>
+					<ErrorImageContainer imageUrl="https://i.imgur.com/lKJiT77.png"></ErrorImageContainer>
+					<ErrorImageText>Sorry this page is broken!!</ErrorImageText>
 				</ErrorImageOverlay>
 			);
 		}
