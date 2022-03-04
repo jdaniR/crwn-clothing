@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import Directory from "../../components/directory/directory.component";
+import Directory from '../../components/directory/directory.component';
 
-import "./homepage.styles.scss";
+import './homepage.styles.scss';
 
-import { HomePageContainer } from "./homepage.styles";
+import { HomePageContainer } from './homepage.styles';
 
 function HomePage() {
-  return (
-    <HomePageContainer>
-      <Directory />
-    </HomePageContainer>
-  );
+	return (
+		<HomePageContainer>
+			<Directory />
+		</HomePageContainer>
+	);
 }
 export default HomePage;
