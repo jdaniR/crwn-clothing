@@ -7,7 +7,6 @@ import Header from './components/header/header.component';
 
 import Spinner from './components/spinner/spinner.component';
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
-import SuspenseComponent from './components/suspense/suspense.component';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
 
@@ -29,25 +28,17 @@ const App = () => {
 			<BrowserRouter>
 				<Header />
 				<ErrorBoundary>
-					<Routes>
-						<Route exact path="/" element={SuspenseComponent(HomePage)} />
-						<Route path="/shop/*" element={SuspenseComponent(ShopPage)} />
-						<Route exact path="/checkout" element={SuspenseComponent(CheckoutPage)} />
-						<Route
-							path="/signIn"
-							element={
-								currentUser ? (
-									<Suspense fallback={<Spinner />}>
-										<Navigate replace to="/" />{' '}
-									</Suspense>
-								) : (
-									<Suspense fallback={<Spinner />}>
-										<SignInAndSignUpPage />
-									</Suspense>
-								)
-							}
-						/>
-					</Routes>
+					<Suspense fallback={<Spinner />}>
+						<Routes>
+							<Route exact path="/" element={<HomePage />} />
+							<Route path="/shop/*" element={<ShopPage />} />
+							<Route exact path="/checkout" element={<CheckoutPage />} />
+							<Route
+								path="/signIn"
+								element={currentUser ? <Navigate replace to="/" /> : <SignInAndSignUpPage />}
+							/>
+						</Routes>
+					</Suspense>
 				</ErrorBoundary>
 			</BrowserRouter>
 		</div>

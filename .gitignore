@@ -41,6 +41,10 @@ build/Release
 node_modules/
 jspm_packages/
 
+# .css and .map files
+*.css
+*.map
+
 # TypeScript v1 declaration files
 typings/
 
